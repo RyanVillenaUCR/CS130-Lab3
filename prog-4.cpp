@@ -21,6 +21,7 @@ void print_cases(const std::string& name)
 
 int main()
 {
+
     print_cases("Elizabeth");
     print_cases("John");
     print_cases("Frank");
