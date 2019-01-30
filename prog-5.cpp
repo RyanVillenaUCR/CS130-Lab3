@@ -28,8 +28,17 @@ struct list
 
     ~list()
     {
-        for(node * n = head; n; n = n->next)
-            delete n;
+        node* walker = head;
+
+        while (walker != nullptr) {
+
+            node* temp = walker->next;
+            remove(walker);
+            walker = temp;
+        }
+
+        assert(head == tail && head == nullptr);
+        assert(n == 0);
     }
 
     size_t size() const
@@ -47,11 +56,14 @@ struct list
         {
             tail = head = new node(0, 0, str);
         }
+        n++;
         return tail;
     }
 
     node * add_after(node* n, const std::string& str)
     {
+        this->n = this->n + 1;
+
         node * a = new node(n, n->next, str);
         
         if (n->next == nullptr) { //if at end of list
@@ -64,40 +76,41 @@ struct list
         return a;
     }
 
-    void remove(node* n)
+    void remove(node* removeMe)
     {
 
         //If n is the only element in the list
-        if (n->prev == nullptr && n->next == nullptr) {
-            assert(head == tail && head == n);
+        if (removeMe->prev == nullptr && removeMe->next == nullptr) {
+            assert(head == tail && head == removeMe);
             head = tail = nullptr;
         }
 
         //If n is the head
-        else if (n->prev == nullptr && n->next != nullptr) {
+        else if (removeMe->prev == nullptr && removeMe->next != nullptr) {
 
-            assert(n == head);
-            head = n->next;
+            assert(removeMe == head);
+            head = removeMe->next;
             head->prev = nullptr;
         }
 
         //If n is the tail
-        else if (n->prev != nullptr && n->next == nullptr) {
+        else if (removeMe->prev != nullptr && removeMe->next == nullptr) {
 
-            assert(n == tail);
-            tail = n->prev;
+            assert(removeMe == tail);
+            tail = removeMe->prev;
             tail->next = nullptr;
         }
 
         //If n is in the middle somewhere
         else {
-            n->prev->next = n->next;
-            n->next->prev = n->prev;
+            removeMe->prev->next = removeMe->next;
+            removeMe->next->prev = removeMe->prev;
         }
 
 
 
-        delete n;
+        n--;
+        delete removeMe;
     }
 
     void print()
