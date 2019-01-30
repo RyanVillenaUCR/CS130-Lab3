@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
-
+#include <cassert>
 struct node
 {
     node * prev;
@@ -66,8 +66,37 @@ struct list
 
     void remove(node* n)
     {
-        n->prev->next = n->next;
-        n->next->prev = n->prev;
+
+        //If n is the only element in the list
+        if (n->prev == nullptr && n->next == nullptr) {
+            assert(head == tail && head == n);
+            head = tail = nullptr;
+        }
+
+        //If n is the head
+        else if (n->prev == nullptr && n->next != nullptr) {
+
+            assert(n == head);
+            head = n->next;
+            head->prev = nullptr;
+        }
+
+        //If n is the tail
+        else if (n->prev != nullptr && n->next == nullptr) {
+
+            assert(n == tail);
+            tail = n->prev;
+            tail->next = nullptr;
+        }
+
+        //If n is in the middle somewhere
+        else {
+            n->prev->next = n->next;
+            n->next->prev = n->prev;
+        }
+
+
+
         delete n;
     }
 
@@ -87,19 +116,13 @@ int main()
     node * e = L.append("E");
     L.print();
 
-    std::cout << "Got past append()" << std::endl;
-
     node * b = L.add_after(a, "B");
     node * d = L.add_after(c, "D");
     node * f = L.add_after(e, "F");
     L.print();
 
-    std::cout << "Got past add_after() and print()" << std::endl;
-
     L.remove(a);
     L.remove(d);
-    
-    std::cout << "Got past remove()" << std::endl;
 
     L.print();
 
