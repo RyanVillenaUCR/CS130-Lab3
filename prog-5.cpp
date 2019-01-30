@@ -53,7 +53,13 @@ struct list
     node * add_after(node* n, const std::string& str)
     {
         node * a = new node(n, n->next, str);
-        n->next->prev = a;
+        
+        if (n->next == nullptr) { //if at end of list
+            tail = a;
+        } else {
+            n->next->prev = a;
+        }
+
         n->next = a;
         return a;
     }
@@ -81,14 +87,20 @@ int main()
     node * e = L.append("E");
     L.print();
 
+    std::cout << "Got past append()" << std::endl;
+
     node * b = L.add_after(a, "B");
     node * d = L.add_after(c, "D");
     node * f = L.add_after(e, "F");
     L.print();
 
+    std::cout << "Got past add_after() and print()" << std::endl;
+
     L.remove(a);
     L.remove(d);
     
+    std::cout << "Got past remove()" << std::endl;
+
     L.print();
 
     return 0;
