@@ -15,6 +15,33 @@ struct array
     {
     }
 
+    ~array() {
+        delete [] data;
+    }
+
+    array(const array& other)
+        : data(new int[other.n]), n(other.n) {
+
+        for (size_t i = 0; i < other.n; i++) {
+            data[i] = other.data[i];
+        }
+    }
+
+    array& operator=(const array& other) {
+
+        delete [] this->data;
+        this->n = 0;
+
+        this->data = new int[other.n];
+
+        for (size_t i = 0; i < other.n; i++)
+            this->data[i] = other[i];
+
+        this->n = other.n;
+
+        return *this;
+    }
+
     const int& operator[](size_t i) const
     {
         return data[i];
