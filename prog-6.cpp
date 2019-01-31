@@ -11,7 +11,7 @@ struct array
     }
 
     array(size_t size)
-        :data(new int[n]), n(size)
+        :data(new int[size]), n(size)
     {
     }
 
