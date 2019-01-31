@@ -54,7 +54,7 @@ public:
         }
     }
 
-    void append(const T& item)
+    void append(const T item)
     {
         resize(num_entries + 1);
         data[num_entries] = item;
@@ -78,6 +78,7 @@ int main()
     for(size_t i = 0; i < 400; i++)
         a.append(a[i]);
 
+    return 0;
     long sum = 0;
     for(size_t i = 0; i < a.size(); i++)
         sum += a[i];
