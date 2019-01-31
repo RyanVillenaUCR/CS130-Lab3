@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 struct array
 {
@@ -6,7 +7,7 @@ struct array
     size_t n;
 
     array()
-        :data(0), n(0)
+        :data(nullptr), n(0)
     {
     }
 
@@ -16,7 +17,7 @@ struct array
     }
 
     ~array() {
-        delete [] data;
+        clear();
     }
 
     array(const array& other)
@@ -29,8 +30,7 @@ struct array
 
     array& operator=(const array& other) {
 
-        delete [] this->data;
-        this->n = 0;
+        clear();
 
         this->data = new int[other.n];
 
@@ -40,6 +40,14 @@ struct array
         this->n = other.n;
 
         return *this;
+    }
+
+    void clear() {
+
+        if (data != nullptr && n != 0)
+            delete [] data;
+        data = nullptr;
+        this->n = 0;
     }
 
     const int& operator[](size_t i) const
@@ -77,8 +85,8 @@ void print(const array& c)
     std::cout << ")" << std::endl;
 }
 
-template<class T>
-void print(double x, T extra = "\n")
+//template<class T>
+void print(double x, const std::string& extra = "\n")
 {
     std::cout << x << extra;
 }
