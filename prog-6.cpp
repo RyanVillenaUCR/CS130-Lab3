@@ -25,7 +25,7 @@ struct array
         return data[i];
     }
     
-    const array& operator + (const array& c) const
+    const array operator + (const array& c) const
     {
         array r(n);
         for(size_t i = 0; i < n; i++)
@@ -33,7 +33,7 @@ struct array
         return r;
     }
 
-    const array& operator - (const array& c) const
+    const array operator - (const array& c) const
     {
         array r(n);
         for(size_t i = 0; i < n; i++)
